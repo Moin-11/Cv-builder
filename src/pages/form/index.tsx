@@ -2,8 +2,11 @@ import Input from '@/components/Input/input';
 import MultipleFileUpload from '@/components/multi-file-upload/multi-file-upload';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import router, { NextRouter, useRouter } from 'next/router';
-import Test from '@/components/display-certs/display-certs';
+import { NextRouter, useRouter } from 'next/router';
+import { DefaultRootState } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/hooks/typedHooks';
+
+import { setLanguages } from '@/slices/root';
 
 function Form(): JSX.Element {
   const {
@@ -12,13 +15,19 @@ function Form(): JSX.Element {
     formState: { errors },
     watch,
   } = useForm();
-  const [formStep, setFormStep] = useState(0);
 
+  const dispatch = useAppDispatch();
+  const [formStep, setFormStep] = useState(0);
+  const [lang, setLang] = useState(0);
   const nextRouter: NextRouter = useRouter();
 
   const [files, setFiles] = useState<FileList | null>();
 
   const isSubmitted: boolean = watch('certificates');
+
+  const languages: number = useAppSelector(
+    (state: DefaultRootState) => state.languages
+  );
 
   return (
     <div className='flex items-center justify-center w-full h-full align-middle md:my-10'>
@@ -172,17 +181,10 @@ function Form(): JSX.Element {
               files={files}
               setFiles={setFiles}
             />
-
-            {isSubmitted == true && (
-              <>
-                <Test samplePDF={files[0]} />
-              </>
-            )}
           </>
         )}
       </form>
     </div>
   );
 }
-
 export default Form;

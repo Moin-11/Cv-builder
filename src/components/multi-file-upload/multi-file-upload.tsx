@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 interface Input {
   name: string;
-  register: (name: string, settings: Object) => void;
-  settings: Object;
+  register: (name: string, settings: Record<string, any>) => void;
+  settings: Record<string, any>;
   isMultiple?: 'multiple' | ''; // does it allow multiple files?
-  files : any;
-  setFiles : any;
+  files: any;
+  setFiles: any;
 }
 
 function MultipleFileUpload({
@@ -15,9 +15,8 @@ function MultipleFileUpload({
   settings,
   isMultiple,
   files,
-  setFiles
+  setFiles,
 }: Input): JSX.Element {
-
   return (
     <div className={`w-full px-3 mb-6 md:w-full md:mb-0`}>
       <label
